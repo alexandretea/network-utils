@@ -4,12 +4,13 @@
 // File:     /Users/alexandretea/Work/distributed-filesystem/srcs/utils/asio/BoostSession.cpp
 // Purpose:  boost asio session implementation
 // Created:  2016-09-29 21:20:48
-// Modified: 2016-09-29 22:49:07
+// Modified: 2016-09-29 23:15:36
 
 #include "BoostSession.hpp"
 
 namespace utils {
 namespace network {
+namespace tcp {
 
 // constructors/destructor
 BoostSession::BoostSession(boost::asio::io_service& io_service) :
@@ -23,7 +24,7 @@ BoostSession::~BoostSession()
 
 
 // public member functions
-tcp::socket&
+::tcp::socket&
 BoostSession::socket()
 {
     return _socket;
@@ -95,5 +96,6 @@ BoostSession::async_write(std::string const& data)
     async_write(data.c_str(), data.size());
 }
 
+}
 }
 }

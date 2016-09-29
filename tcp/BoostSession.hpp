@@ -4,7 +4,7 @@
 // File:     /Users/alexandretea/Work/distributed-filesystem/srcs/utils/asio/BoostSession.hpp
 // Purpose:  boost asio session implementation
 // Created:  2016-09-28 17:31:00
-// Modified: 2016-09-29 22:47:42
+// Modified: 2016-09-29 23:15:29
 
 #ifndef BOOST_SESSION_H
 #define BOOST_SESSION_H
@@ -19,6 +19,7 @@ using namespace boost::asio::ip;
 
 namespace utils {
 namespace network {
+namespace tcp {
 
 // represents a tcp session using boost asio library
 // destroys itselfs when an error is encountered or if the connection is closed
@@ -32,7 +33,7 @@ class BoostSession
         BoostSession&   operator=(BoostSession const& other) = delete;
 
     public:
-        tcp::socket&    socket();
+        ::tcp::socket&  socket();
         void            start();
         void            handle_read(const boost::system::error_code& error,
                                     size_t bytes_transferred);
@@ -47,10 +48,11 @@ class BoostSession
         static const unsigned int BUFFER_LENGTH = 4096;
 
     private:
-        tcp::socket _socket;
-        char        _in_buffer[BUFFER_LENGTH];
+        ::tcp::socket   _socket;
+        char            _in_buffer[BUFFER_LENGTH];
 };
 
+}
 }
 }
 
