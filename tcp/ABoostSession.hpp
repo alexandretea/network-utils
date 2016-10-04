@@ -1,10 +1,10 @@
 // C/C++ File
 
 // Author:   Alexandre Tea <alexandre.qtea@gmail.com>
-// File:     /Users/alexandretea/Work/distributed-filesystem/srcs/utils/asio/BoostSession.hpp
+// File:     /Users/alexandretea/Work/distributed-filesystem/srcs/utils/asio/ABoostSession.hpp
 // Purpose:  boost asio session implementation
 // Created:  2016-09-28 17:31:00
-// Modified: 2016-09-29 23:15:29
+// Modified: 2016-10-04 12:28:50
 
 #ifndef BOOST_SESSION_H
 #define BOOST_SESSION_H
@@ -23,14 +23,14 @@ namespace tcp {
 
 // represents a tcp session using boost asio library
 // destroys itselfs when an error is encountered or if the connection is closed
-class BoostSession
+class ABoostSession
 {
 	public:
-        BoostSession(boost::asio::io_service& io_service);
-        virtual ~BoostSession();
+        ABoostSession(boost::asio::io_service& io_service);
+        virtual ~ABoostSession();
 
-        BoostSession(BoostSession const& other) = delete;
-        BoostSession&   operator=(BoostSession const& other) = delete;
+        ABoostSession(ABoostSession const& other) = delete;
+        ABoostSession&  operator=(ABoostSession const& other) = delete;
 
     public:
         ::tcp::socket&  socket();
@@ -39,15 +39,18 @@ class BoostSession
                                     size_t bytes_transferred);
         void            handle_write(const boost::system::error_code& error);
 
-    private:
+    protected:
         void            async_read();
         void            async_write(char const* data, size_t len);
         void            async_write(std::string const& data);
 
+        virtual void    process_input() = 0;
+        virtual void    output_callback() = 0;
+
 	public:
         static const unsigned int BUFFER_LENGTH = 4096;
 
-    private:
+    protected:
         ::tcp::socket   _socket;
         char            _in_buffer[BUFFER_LENGTH];
 };
